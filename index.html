@@ -70,10 +70,17 @@
             var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
             document.getElementById("tz1").innerText = 'Timezone (jstz): ' + tz1.name();
             document.getElementById("tz2").innerText = 'Timezone (moment): ' + moment.tz.guess();
-            var tz3 = Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
-            document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
+            if (Intl) {
+               var tz3 = Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
+               document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
+            }
+            else {
+               document.getElementById("tz3").innerText = 'Timezone (Intl): not supported';
+            }
             // current list consists of single word in ALL CAPS  https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
-            var tz4 = new Date().toString().match(/\(([A-Z].*)\)/)[1];
+            var tz4match = new Date().toString().match(/\(([A-Z].*)\)/);
+            alert(tz4match); alert(tz4match[0]); alert(tz4match[1]);
+            var tz4 = tz4match ? tz4match[1] : 'problem parsing';
             document.getElementById("tz4").innerText = 'Timezone abbreviation (parsed from native): ' + tz4;
             var tz5 = moment().tz(moment.tz.guess()).format('z');
             document.getElementById("tz5").innerText = 'Timezone abbreviation (moment): ' + tz5;
