@@ -79,7 +79,6 @@
             }
             // current list consists of single word in ALL CAPS  https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
             var tz4match = new Date().toString().match(/\(([A-Z].*)\)/);
-            alert(tz4match); alert(tz4match[0]); alert(tz4match[1]);
             var tz4 = tz4match ? tz4match[1] : 'problem parsing';
             document.getElementById("tz4").innerText = 'Timezone abbreviation (parsed from native): ' + tz4;
             var tz5 = moment().tz(moment.tz.guess()).format('z');
