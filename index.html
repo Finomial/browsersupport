@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Browser Support - a tool for supporting web browsers</title>
+
+    <noscript>
+        <h3>JavaScript not enabled</h3>
+        <p>Please enable JavaScript in your browser to use this tool. It will not be very useful otherwise.</p>
+    </noscript>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/platform/1.3.2/platform.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.2/moment.min.js"></script>
+    <script type="text/javascript" src="//momentjs.com/downloads/moment-timezone-with-data.js"></script>
+
+    <script type="application/javascript">
+        $(document).ready(function() {
+            document.getElementById("date1").innerText = moment().format();
+            document.getElementById("date2").innerText = Date();
+            var offset = -new Date().getTimezoneOffset()/60; // may not be an integer
+            document.getElementById("date3").innerText = 'Offset from UTC/GMT: ' + offset;
+        });
+    </script>
+
+    <script type="application/javascript">
+        $(document).ready(function() {
+            document.getElementById("plat0").innerText = 'JavaScript enabled: true';
+            document.getElementById("plat1").innerText = 'Cookies enabled: ' + navigator.cookieEnabled;
+            document.getElementById("plat2").innerText = 'Browser: ' + navigator.appName;
+            document.getElementById("plat3").innerText = 'User Agent: ' + navigator.userAgent;
+            document.getElementById("plat4").innerText = 'Browser Version: ' + navigator.appVersion;
+            document.getElementById("plat5").innerText = 'Browser code name: ' + navigator.appCodeName;
+            document.getElementById("plat6").innerText = 'Language: ' + navigator.language;
+            document.getElementById("plat7").innerText = 'Platform: ' + navigator.platform;
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
+            document.getElementById("tz1").innerText = tz1.name();
+            document.getElementById("tz2").innerText = moment.tz.guess();
+            var tz3 = Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
+            document.getElementById("tz3").innerText = tz3;
+        });
+    </script>
+
+</head>
+<body>
+<h2>Browser Configuration</h2>
+<p>
+<ol>
+    <li id="tz1"></li>
+    <li id="tz2"></li>
+    <li id="tz3">Intl supported: <b>false</b></li>
+    <li id="date1"></li>
+    <li id="date2"></li>
+    <li id="date3"></li>
+    <li id="plat0">JavaScript enabled: <b>false</b></li>
+    <li id="plat1"></li>
+    <li id="plat2"></li>
+    <li id="plat3"></li>
+    <li id="plat4"></li>
+    <li id="plat5"></li>
+    <li id="plat6"></li>
+    <li id="plat7"></li>
+</ol>
+</p>
+
+<hr/>
+<small><small>
+    &bull;
+    <a href="https://github.com/Finomial/browsersupport/">Browser Support project page & credits</a>
+    &bull;
+</small></small>
+</body>
+</html>
