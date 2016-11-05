@@ -47,7 +47,7 @@
 
         $(document).ready(function() {
             if (hasQueryParam('geo')) {
-                $.get("http://ipinfo.io/json", function (json) {
+                $.get("//ipinfo.io/json", function (json) {
                     document.getElementById("geo1").innerHTML = JSON.stringify(json);
                 });
             }
