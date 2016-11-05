@@ -17,10 +17,20 @@
 
     <script type="application/javascript">
         $(document).ready(function() {
-            document.getElementById("date1").innerText = moment().format();
-            document.getElementById("date2").innerText = Date();
+            document.getElementById("date1").innerText = 'Current time (native): ' + Date();
+            document.getElementById("date2").innerText = 'Current time (moment): ' + moment().format();
             var offset = -new Date().getTimezoneOffset()/60; // may not be an integer
             document.getElementById("date3").innerText = 'Offset from UTC/GMT: ' + offset;
+
+            var someDate = new Date("2010-11-29T12:00:00Z"); // noon on 29-Nov-2010, UTC (Zulu)
+            var someDateUTC = someDate.toUTCString();
+            var someDateLocal = '(a) ' + someDate.toTimeString() + '; (b) ' + someDate.toString();
+            document.getElementById("date4").innerText = 'Hard-coded UTC time from 2010: ' + someDateUTC;
+            document.getElementById("date5").innerText = 'Converted to browser timezone (native): ' + someDateLocal;
+            var momentDate = moment(someDateUTC);
+            // see http://momentjs.com/docs/#/parsing/string-format/
+            var someDateLocalMoment = '(a) ' + momentDate.format('YYYY-M-D h:mm A') + '; (b) ' + momentDate.format('YYYY-MMM-DD hh:mm A');
+            document.getElementById("date6").innerText = 'Converted to browser timezone (moment): ' + someDateLocalMoment;
         });
     </script>
 
@@ -48,19 +58,25 @@
         $(document).ready(function() {
             if (hasQueryParam('geo')) {
                 $.get("//ipinfo.io/json", function (json) {
-                    document.getElementById("geo1").innerHTML = JSON.stringify(json);
+                    document.getElementById("geo1").innerHTML = JSON.stringify(json) +
+                            ' (<b><a href="' + getLocationUrl() + '">remove geo data</a></b>)';
                 });
             }
             else {
-                document.getElementById("geo1").innerHTML = 'Geo lookup skipped. Click ' + '' +
-                        '<b><a href="' + getLocationUrl() + '?geo">here</a></b> to include geo data.';
+                document.getElementById("geo1").innerHTML = 'Geo lookup skipped.' +
+                        ' (<b><a href="' + getLocationUrl() + '?geo">include geo data</a></b>)';
             }
 
             var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
-            document.getElementById("tz1").innerText = tz1.name();
-            document.getElementById("tz2").innerText = moment.tz.guess();
+            document.getElementById("tz1").innerText = 'Timezone (jstz): ' + tz1.name();
+            document.getElementById("tz2").innerText = 'Timezone (moment): ' + moment.tz.guess();
             var tz3 = Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
-            document.getElementById("tz3").innerText = tz3;
+            document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
+            // current list consists of single word in ALL CAPS  https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
+            var tz4 = new Date().toString().match(/\(([A-Z].*)\)/)[1];
+            document.getElementById("tz4").innerText = 'Timezone abbreviation (parsed from native): ' + tz4;
+            var tz5 = moment().tz(moment.tz.guess()).format('z');
+            document.getElementById("tz5").innerText = 'Timezone abbreviation (moment): ' + tz5;
         });
     </script>
 
@@ -72,10 +88,15 @@
     <li id="tz1"></li>
     <li id="tz2"></li>
     <li id="tz3">Intl supported: <b>false</b></li>
+    <li id="tz4"></li>
+    <li id="tz5"></li>
     <li id="geo1"></li>
     <li id="date1"></li>
     <li id="date2"></li>
     <li id="date3"></li>
+    <li id="date4"></li>
+    <li id="date5"></li>
+    <li id="date6"></li>
     <li id="plat0">JavaScript enabled: <b>false</b></li>
     <li id="plat1"></li>
     <li id="plat2"></li>
