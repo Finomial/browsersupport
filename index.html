@@ -70,8 +70,8 @@
             var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
             document.getElementById("tz1").innerText = 'Timezone (jstz): ' + tz1.name();
             document.getElementById("tz2").innerText = 'Timezone (moment): ' + moment.tz.guess();
-            if (Intl) {
-               var tz3 = Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
+            if (window.Intl) {
+               var tz3 = window.Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
                document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
             }
             else {
