@@ -39,6 +39,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $.get("http://ipinfo.io/json", function(json) {
+                document.getElementById("geo1").innerHTML = JSON.stringify(json);
+            });
+            
             var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
             document.getElementById("tz1").innerText = tz1.name();
             document.getElementById("tz2").innerText = moment.tz.guess();
@@ -55,6 +59,7 @@
     <li id="tz1"></li>
     <li id="tz2"></li>
     <li id="tz3">Intl supported: <b>false</b></li>
+    <li id="geo1"></li>
     <li id="date1"></li>
     <li id="date2"></li>
     <li id="date3"></li>
