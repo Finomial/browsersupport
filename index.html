@@ -67,9 +67,6 @@
                         ' (<b><a href="' + getLocationUrl() + '?geo">include geo data</a></b>)';
             }
 
-            var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
-            document.getElementById("tz1").innerText = 'Timezone (jstz): ' + tz1.name();
-            document.getElementById("tz2").innerText = 'Timezone (moment): ' + moment.tz.guess();
             if (window.Intl) {
                var tz3 = window.Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
                document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
@@ -83,6 +80,10 @@
             document.getElementById("tz4").innerText = 'Timezone abbreviation (parsed from native): ' + tz4;
             var tz5 = moment().tz(moment.tz.guess()).format('z');
             document.getElementById("tz5").innerText = 'Timezone abbreviation (moment): ' + tz5;
+
+            var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
+            document.getElementById("tz1").innerText = 'Timezone (jstz): ' + tz1.name();
+            document.getElementById("tz2").innerText = 'Timezone (moment): ' + moment.tz.guess();
         });
     </script>
 
