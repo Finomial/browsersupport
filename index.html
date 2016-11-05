@@ -38,11 +38,24 @@
     </script>
 
     <script type="text/javascript">
+        function hasQueryParam(param) {
+            return window.location.search.substring(1) == param;
+        }
+        function getLocationUrl() {
+            return window.location.href.split('?')[0];
+        }
+
         $(document).ready(function() {
-            $.get("http://ipinfo.io/json", function(json) {
-                document.getElementById("geo1").innerHTML = JSON.stringify(json);
-            });
-            
+            if (hasQueryParam('geo')) {
+                $.get("http://ipinfo.io/json", function (json) {
+                    document.getElementById("geo1").innerHTML = JSON.stringify(json);
+                });
+            }
+            else {
+                document.getElementById("geo1").innerHTML = 'Geo lookup skipped. Click ' + '' +
+                        '<b><a href="' + getLocationUrl() + '?geo">here</a></b> to include geo data.';
+            }
+
             var tz1 = jstz.determine(); // Ask browser which timezone it believes it is in
             document.getElementById("tz1").innerText = tz1.name();
             document.getElementById("tz2").innerText = moment.tz.guess();
