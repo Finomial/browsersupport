@@ -48,11 +48,25 @@
     </script>
 
     <script type="text/javascript">
-        function hasQueryParam(param) {
-            return window.location.search.substring(1) == param;
+        // ignores duplicates; if you need to handle that, use URL.js
+        function getQueryParamValue(paramName) { // derived from http://stackoverflow.com/a/523293/306430
+            var searchString = window.location.search.substring(1),
+                    i, val, params = searchString.split("&");
+            for (i=0;i<params.length;i++) {
+                val = params[i].split("=");
+                if (val[0] == paramName) {
+                    return val[1];
+                }
+            }
+            return null;
         }
-        function getLocationUrl() {
-            return window.location.href.split('?')[0];
+        function hasQueryParam(param) { // some day replace with http://caniuse.com/#feat=urlsearchparams
+            return !(getQueryParamValue(param) === null); // does not need a value, just present is sufficient
+            //return window.location.search.substring(1) == param;
+        }
+        function getLocationUrl() { // returns from protocol to end of path: https://example.com/foo/bar.html
+            return window.location.origin + window.location.pathname;
+            //return window.location.href.split('?')[0];
         }
 
         $(document).ready(function() {
@@ -68,11 +82,11 @@
             }
 
             if (window.Intl) {
-               var tz3 = window.Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
-               document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
+                var tz3 = window.Intl.DateTimeFormat().resolvedOptions().timeZone; // not supported <IE11 http://caniuse.com/#feat=internationalization
+                document.getElementById("tz3").innerText = 'Timezone (Intl): ' + tz3;
             }
             else {
-               document.getElementById("tz3").innerText = 'Timezone (Intl): not supported';
+                document.getElementById("tz3").innerText = 'Timezone (Intl): not supported';
             }
             // current list consists of single word in ALL CAPS  https://en.wikipedia.org/wiki/List_of_time_zone_abbreviations
             var tz4match = new Date().toString().match(/\(([A-Z].*)\)/);
